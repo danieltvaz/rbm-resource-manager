@@ -1,13 +1,16 @@
 import * as Styled from "./styles";
 
+import { useEffect, useState } from "react";
+
 import Button from "components/particles/button";
 import { OnboardingContext } from "pages/onboarding/contexts";
+import { RequestCriarSenhaParams } from "services/api/base/types";
 import Spacer from "components/particles/spacer";
 import TextInput from "components/atoms/text-input";
 import Typography from "components/particles/typography";
 import ValidationIndicator from "components/atoms/validation-indicator";
-import { useState } from "react";
-import { useTheme } from "styled-components";
+import { requestCriarSenha } from "services/api/base";
+import useRequest from "hooks/useRequest";
 
 const VALIDATIONS = [
   {
@@ -33,9 +36,8 @@ const VALIDATIONS = [
 ];
 
 export default function RecoverPasswordNewPassword() {
-  const theme = useTheme();
   const [passwords, setPasswords] = useState({ password: "", confirmPassword: "" });
-  const { changeStep } = OnboardingContext();
+  const [state, request] = useRequest();
 
   return (
     <>
@@ -71,7 +73,7 @@ export default function RecoverPasswordNewPassword() {
         value={passwords.confirmPassword}
         onChange={(e) => setPasswords((prev) => ({ ...prev, confirmPassword: e.target.value }))}
       />
-      <Button width="100%" onClick={() => changeStep("recover-password-success")}>
+      <Button width="100%" onClick={() => {}}>
         Trocar senha
       </Button>
     </>

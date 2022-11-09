@@ -1,12 +1,17 @@
 import * as Styled from "./styles";
 
+import { useEffect, useState } from "react";
+
 import Button from "components/particles/button";
 import { OnboardingContext } from "pages/onboarding/contexts";
+import { RequestCriarSenhaParams } from "services/api/base/types";
 import Spacer from "components/particles/spacer";
 import TextInput from "components/atoms/text-input";
 import Typography from "components/particles/typography";
 import ValidationIndicator from "components/atoms/validation-indicator";
-import { useState } from "react";
+import { request } from "http";
+import { requestCriarSenha } from "services/api/base";
+import useRequest from "hooks/useRequest";
 import { useTheme } from "styled-components";
 
 const VALIDATIONS = [
@@ -35,7 +40,27 @@ const VALIDATIONS = [
 export default function ActivateAccountPassword() {
   const theme = useTheme();
   const [passwords, setPasswords] = useState({ password: "", confirmPassword: "" });
-  const { changeStep } = OnboardingContext();
+  const { changeStep, forms, setForms } = OnboardingContext();
+  const [state, request] = useRequest();
+
+  async function onProceed() {
+    try {
+      await request(requestCriarSenha, "create_password", { login: forms.email, senha: passwords.password } as RequestCriarSenhaParams);
+    } catch {}
+  }
+
+  useEffect(() => {
+    if (state.result.create_password) {
+      setForms({});
+      changeStep("activate-account-success");
+    }
+  }, [state.result.create_password]);
+
+  useEffect(() => {
+    if (state.error.create_password) {
+      alert("deu ruim");
+    }
+  }, [state.error.create_password]);
 
   return (
     <>
@@ -71,7 +96,7 @@ export default function ActivateAccountPassword() {
         value={passwords.confirmPassword}
         onChange={(e) => setPasswords((prev) => ({ ...prev, confirmPassword: e.target.value }))}
       />
-      <Button width="100%" onClick={() => changeStep("activate-account-success")}>
+      <Button width="100%" onClick={onProceed}>
         Ativar conta
       </Button>
     </>

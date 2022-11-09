@@ -1,5 +1,7 @@
 import * as Styled from "./styles";
 
+import { lazy, memo, useState } from "react";
+
 import ActivateAccountPassword from "components/molecules/active-account-password";
 import ActiveAccountCard from "components/molecules/active-account-card";
 import ActiveAccountPin from "components/molecules/active-account-pin";
@@ -14,7 +16,6 @@ import SuccessCard from "components/molecules/success-card";
 import TextLink from "components/particles/text-link";
 import Typography from "components/particles/typography";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { memo } from "react";
 import { useTheme } from "styled-components";
 
 const TEAM = [
@@ -27,12 +28,12 @@ const TEAM = [
   "Romney",
   "Natã",
   "Adriel",
-  "Carlinho",
+  "Carlos Schoma",
   "Rhuan",
   "Ana",
   "Marcello",
   "Diego",
-  "Matheus",
+  "Mateus",
   "Eduardo",
   "Alessandra",
   "Vitor",

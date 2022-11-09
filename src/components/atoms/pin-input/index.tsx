@@ -45,6 +45,7 @@ export default function PinInput({ digits = 6, onComplete }: PinInputProps) {
       {Array.from(Array(digits).keys()).map((number, index) => (
         <Styled.Input
           onChange={(e) => handleInput(e.target.value, index)}
+          value={inputValue[index]}
           key={number}
           maxLength={1}
           ref={(el) => {
